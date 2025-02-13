@@ -1123,6 +1123,16 @@ func (c *ServerConn) Quit() error {
 	return errs.ErrorOrNil()
 }
 
+// returns underlying conn
+func (c *ServerConn) GetConn() *textproto.Conn {
+	return c.conn
+}
+
+// a warper to access 'cmd' from outside
+func (c *ServerConn) Cmd(expected int, format string, args ...interface{}) (int, string, error) {
+	return c.cmd(expected, format, args...)
+}
+
 // Read implements the io.Reader interface on a FTP data connection.
 func (r *Response) Read(buf []byte) (int, error) {
 	return r.conn.Read(buf)
